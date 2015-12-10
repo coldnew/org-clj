@@ -7,6 +7,8 @@
   [{:keys [meta content callback-fn]}]
   (it (str meta " parser")
       (should (= (callback-fn (str meta content))
+                 (callback-fn (str meta content "\n"))
+                 (callback-fn (str meta content "\n\n"))
                  (callback-fn (str meta " " content))
                  (callback-fn (str meta "  " content))
                  (callback-fn (str meta "\t" content))

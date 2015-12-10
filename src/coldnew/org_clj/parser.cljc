@@ -40,7 +40,7 @@
        :email))
 
 (comment
-  (parse-title "#+TITLE: This is title")
+  (parse-title "#+TITLE: This is title\n")
   (parse-title "#+TITLE:This is title")
   (parse-title "#+TITLE:  This is title")
   (parse-author "#+AUTHOR: Yen-Chin, Lee")

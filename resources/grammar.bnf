@@ -4,9 +4,9 @@
 <meta-author>  = <meta-header> 'AUTHOR:' #"\s*"
 <meta-email>  = <meta-header> 'EMAIL:' #"\s*"
 (* #+TITLE: content *)
-title        = <meta-title>  #'.+'?
-author       = <meta-author>  #'.+'?
-email        = <meta-email>  #'.+'?
+title        = <meta-title>   #'.+'? <newline*>?
+author       = <meta-author>  #'.+'? <newline*>?
+email        = <meta-email>   #'.+'? <newline*>?
 (*  *)
 <tab>    = #'\t'
 <space>    = #'\s'
