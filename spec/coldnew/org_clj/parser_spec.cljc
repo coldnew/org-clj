@@ -1,7 +1,11 @@
 (ns coldnew.org-clj.parser-spec
-  (:require [speclj.core :refer :all]
-            [speclj.run.standard]
-            [coldnew.org-clj.parser :refer :all]))
+  (#?(:clj :require
+      :cljs :require-macros)
+   [speclj.core :refer [describe it should should-not]])
+  (:require [speclj.run.standard :refer [run-specs]]
+            [coldnew.org-clj.parser
+             :refer [parse-title parse-author parse-creator parse-date parse-email parse-language
+                     parse-select-tags parse-exclude-tags] ]))
 
 (defn verify-header
   [{:keys [meta content callback-fn]}]
@@ -10,12 +14,13 @@
                  (callback-fn (str meta content "\n"))
                  (callback-fn (str meta content "\n\n"))
                  (callback-fn (str meta " " content))
-                 (callback-fn (str meta "  " content))
+                 (callback-fn (str meta "   " content))
                  (callback-fn (str meta "\t" content))
                  content))))
 
 (describe
  "Document preamble"
+
  (verify-header {:meta        "#+TITLE:"
                  :content     "org-clj is an org-mode parser"
                  :callback-fn parse-title})
@@ -41,3 +46,6 @@
                  :content     "todo"
                  :callback-fn parse-exclude-tags})
  )
+
+;; Excute the spec
+(run-specs)
