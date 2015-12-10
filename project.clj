@@ -14,5 +14,4 @@
             [lein-codox "0.9.0"]]
   :profiles {:dev {:dependencies [[speclj "3.3.0"]]}}
 
-  :codox {:src-dir-uri "http://github.com/coldnew/org-clj/blob/master/"
-          :src-linenum-anchor-prefix "L"})
+  :codox {:source-uri "http://github.com/coldnew/org-clj/blob/master/{filepath}#L{line}"})
