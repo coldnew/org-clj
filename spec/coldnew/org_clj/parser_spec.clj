@@ -22,7 +22,22 @@
  (verify-header {:meta        "#+AUTHOR:"
                  :content     "Yen-Chin, Lee"
                  :callback-fn parse-author})
+ (verify-header {:meta        "#+CREATOR:"
+                 :content     "coldnew.tw@gmail.com"
+                 :callback-fn parse-creator})
+ (verify-header {:meta        "#+DATE:"
+                 :content     "2015-06-08 21:05:24"
+                 :callback-fn parse-date})
  (verify-header {:meta        "#+EMAIL:"
                  :content     "coldnew.tw@gmail.com"
                  :callback-fn parse-email})
+ (verify-header {:meta        "#+LANGUAGE:"
+                 :content     "zh-tw"
+                 :callback-fn parse-language})
+ (verify-header {:meta        "#+SELECT_TAGS:"
+                 :content     "todo"
+                 :callback-fn parse-select-tags})
+ (verify-header {:meta        "#+EXCLUDE_TAGS:"
+                 :content     "todo"
+                 :callback-fn parse-exclude-tags})
  )

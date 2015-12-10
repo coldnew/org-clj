@@ -1,12 +1,24 @@
-<root>      = (title | author | email)+
+<root>      = (title | author| creator |email |
+               date | language | select-tags | exclude-tags )+
+(* Preamble *)
 <meta-header> = '#+'
-<meta-title>   = <meta-header> 'TITLE:' #"\s*"
-<meta-author>  = <meta-header> 'AUTHOR:' #"\s*"
-<meta-email>  = <meta-header> 'EMAIL:' #"\s*"
-(* #+TITLE: content *)
-title        = <meta-title>   #'.+'? <newline*>?
-author       = <meta-author>  #'.+'? <newline*>?
-email        = <meta-email>   #'.+'? <newline*>?
+<meta-header-end> = ':' #"\s*"
+<meta-title>    = <meta-header> 'TITLE'      <meta-header-end>
+<meta-author>   = <meta-header> 'AUTHOR'     <meta-header-end>
+<meta-creator>  = <meta-header> 'CREATOR'    <meta-header-end>
+<meta-date>     = <meta-header> 'DATE'       <meta-header-end>
+<meta-email>    = <meta-header> 'EMAIL'      <meta-header-end>
+<meta-language> = <meta-header> 'LANGUAGE'   <meta-header-end>
+<meta-select-tags> = <meta-header> 'SELECT_TAGS'   <meta-header-end>
+<meta-exclude-tags> = <meta-header> 'EXCLUDE_TAGS'   <meta-header-end>
+title        = <meta-title>    #'.+'? <newline*>?
+author       = <meta-author>   #'.+'? <newline*>?
+creator      = <meta-creator>  #'.+'? <newline*>?
+email        = <meta-email>    #'.+'? <newline*>?
+date         = <meta-date>     #'.+'? <newline*>?
+language     = <meta-language> #'.+'? <newline*>?
+select-tags  = <meta-select-tags> #'.+'? <newline*>?
+exclude-tags  = <meta-exclude-tags> #'.+'? <newline*>?
 (*  *)
 <tab>    = #'\t'
 <space>    = #'\s'
