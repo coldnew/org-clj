@@ -1,9 +1,14 @@
-<root>      = title*
-meta-header = '#+'
-meta-title  = <meta-header> 'TITLE:' space*
+<root>      = (title | author | email)+
+<meta-header> = '#+'
+<meta-title>   = <meta-header> 'TITLE:' #"\s*"
+<meta-author>  = <meta-header> 'AUTHOR:' #"\s*"
+<meta-email>  = <meta-header> 'EMAIL:' #"\s*"
 (* #+TITLE: content *)
-title       = <meta-title> #'.+'
+title        = <meta-title>  #'.+'?
+author       = <meta-author>  #'.+'?
+email        = <meta-email>  #'.+'?
 (*  *)
-space    = #'\s'
-spaces   = space+
-newline = #'\n'
+<tab>    = #'\t'
+<space>    = #'\s'
+<spaces>   = space+
+<newline> = #'\n'

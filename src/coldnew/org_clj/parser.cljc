@@ -12,7 +12,36 @@
   []
   (slurp (clojure.java.io/resource "grammar.bnf")))
 
-(def parse-org (insta/parser
-                (generate-bnf))
+(defn parse-org [content]
+  ((insta/parser
+    (generate-bnf)) content))
+;; (parse-org "#+TITLE:  asd")
+;; (parse-org "#+AUTHOR:  asd")
+
+(defn content->hashmap [content]
+  (->> content
+       parse-org
+       vec
+       (into {})))
+
+(defn parse-title [content]
+  (->> content
+       content->hashmap
+       :title))
+
+(defn parse-author [content]
+  (->> content
+       content->hashmap
+       :author))
+
+(defn parse-email [content]
+  (->> content
+       content->hashmap
+       :email))
+
+(comment
+  (parse-title "#+TITLE: This is title")
+  (parse-title "#+TITLE:This is title")
+  (parse-title "#+TITLE:  This is title")
+  (parse-author "#+AUTHOR: Yen-Chin, Lee")
   )
-;;(parse-org "#+TITLE: a")
