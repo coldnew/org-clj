@@ -1,1 +1,1 @@
-(ns coldnew.org-clj.core)
+(ns ^:no-doc coldnew.org-clj.core)

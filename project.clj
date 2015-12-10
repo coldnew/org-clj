@@ -5,4 +5,14 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.189"]
-                 [com.lucasbradstreet/instaparse-cljs "1.4.1.0"]])
+                 [com.lucasbradstreet/instaparse-cljs "1.4.1.0"]]
+
+  :test-paths ["spec"]
+  :source-paths ["src"]
+
+  :plugins [[speclj "3.3.0"]
+            [lein-codox "0.9.0"]]
+  :profiles {:dev {:dependencies [[speclj "3.3.0"]]}}
+
+  :codox {:src-dir-uri "http://github.com/coldnew/org-clj/blob/master/"
+          :src-linenum-anchor-prefix "L"})
