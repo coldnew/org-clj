@@ -4,14 +4,16 @@
 
 ;; https://github.com/danneu/klobbdown/blob/master/src/klobbdown/parse.clj
 ;; https://github.com/eigenhombre/yaclomp/blob/master/resources/grammar.bnf
+;; https://github.com/gmorpheme/organum/blob/master/src/organum/core.clj
+;; https://github.com/minikomi/orjmode/blob/master/resources/org.bnf
 ;; http://orgmode.org/manual/Document-preamble.html
 (def bnf
-  (slurp (clojure.java.io/resource "grammar.bnf"))
+  (slurp (clojure.java.io/resource "preamble.bnf"))
   )
 
 (defn generate-bnf
   []
-  (slurp (clojure.java.io/resource "grammar.bnf")))
+  (slurp (clojure.java.io/resource "preamble.bnf")))
 
 (defn org-to-ast
   "Convert org-mode to AST"
@@ -20,6 +22,15 @@
     ;; TODO: fix for cljs
     (generate-bnf))
    content))
+(comment
+  (org-to-ast "* hello \n")
+  (org-to-ast "** hello")
+  (org-to-ast "*** hello\n")
+  (org-to-ast "*asd*")
+
+  (org-to-ast "#+TITLE: hello wol\n#+AUTHOR: coldnew")
+  (parse-org "#+TITLE: hello wol\n#+AUTHOR: coldnew\n* asd\n** asds")
+  )
 
 (defn ast-to-hashmap
   "Convert AST to hashmap"
@@ -58,8 +69,11 @@
 (defn parse-exclude-tags [content]
   (parse-with-key content :exclude-tags))
 
+(defn parse-heading [content]
+  (parse-with-key content :heading))
+
 (comment
-  (parse-title "#+TITLE: This is title\n")
+  (parse-title "#+TITLE: This is title\n#+AUTHOR:coldnew")
   (parse-title "#+TITLE:This is title")
   (parse-title "#+TITLE:  This is title")
   (parse-author "#+AUTHOR: Yen-Chin, Lee")
