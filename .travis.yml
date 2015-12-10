@@ -1,11 +1,14 @@
 language: clojure
 sudo: false
+notifications:
+  email: false
 env:
   global:
   - GH_REF: github.com/coldnew/org-clj.git
   - secure: GBVSnbTG1Onk3RD3pS33VfKkp6FtCYJVTAx70JA0xh+nRCLfa2BpDr8oesOaEbByrmIwPZaq/UqH8WdIgYlGrb+IEIpQLeDVsKNdG3nRa0GoQiTs6z8B3DUSOoZBi8ILUnFecP1q2VQArqWVRG1GIhJcIcDqgvFwzyFbjoiG+Ojs/LuUc7LbSZ0iqV3NmN83Ych12YpRHKBWXoua4SM4JFX1WWODEGAUc8lXVMyy/3a6wkNhxwZnZLw/1/oUfIO9yZNPJdSKmttbi2DNIPcnayLQxF1XO2la4NGna/GKODB+jZQk+ZqVPV+lbxeeEBCyF0Dp7z17lTmOwUFXEbL74srK1iE0xgDu+Wv4xZBSPpLsyNXp7YBmlVpvP+Qpu2xQ2oa8BhjKxf7d642rcv/b7BkzOB2ezjg5Q+MNebk2cgneMWRQ+FA1FxjFaEaDFMmlocqSWC/hoI7FFT2l+rkR5Co4Iug016eSbsZrpM7P7t8ZlyA0kn+onaWcn5/rnbKADfYWy8Wbc384wRBo4MrnkGjZt80XMIMO46KNTDQ80RIACbOdDX637+57RbsXdzfPP4tgnKDZTwMko9LpD/If0WP9bGffSMcaOcFLkhLeLB2q+E/WPOaFY6fIoXAb4VIPk+nfLQGVHFg50TGO7NMMiCZ9tJsQDJeRsMafuxA2SYs=
 jdk:
- - oraclejdk8
+  - oraclejdk8
+  - oraclejdk7
 before_install:
  - mkdir ~/bin
  - wget https://raw.github.com/technomancy/leiningen/stable/bin/lein -P ~/bin/
