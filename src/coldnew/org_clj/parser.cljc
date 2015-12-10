@@ -12,32 +12,35 @@
   []
   (slurp (clojure.java.io/resource "grammar.bnf")))
 
-(defn parse-org [content]
+(defn org-to-ast
+  "Convert org-mode to AST"
+  [content]
   ((insta/parser
-    (generate-bnf)) content))
-;; (parse-org "#+TITLE:  asd")
-;; (parse-org "#+AUTHOR:  asd")
+    ;; TODO: fix for cljs
+    (generate-bnf))
+   content))
 
-(defn content->hashmap [content]
+(defn ast-to-hashmap
+  "Convert AST to hashmap"
+  [ast]
+  (->> ast vec (into {})))
+
+(defn parse-org [content]
   (->> content
-       parse-org
-       vec
-       (into {})))
+       org-to-ast
+       ast-to-hashmap))
+
+(defn- parse-with-key [content key]
+  (->> content parse-org key))
 
 (defn parse-title [content]
-  (->> content
-       content->hashmap
-       :title))
+  (parse-with-key content :title))
 
 (defn parse-author [content]
-  (->> content
-       content->hashmap
-       :author))
+  (parse-with-key content :author))
 
 (defn parse-email [content]
-  (->> content
-       content->hashmap
-       :email))
+  (parse-with-key content :email))
 
 (comment
   (parse-title "#+TITLE: This is title\n")
