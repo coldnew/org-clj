@@ -1,0 +1,9 @@
+<root>      = title*
+meta-header = '#+'
+meta-title  = <meta-header> 'TITLE:' space*
+(* #+TITLE: content *)
+title       = <meta-title> #'.+'
+(*  *)
+space    = #'\s'
+spaces   = space+
+newline = #'\n'
