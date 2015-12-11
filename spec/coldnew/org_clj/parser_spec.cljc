@@ -8,6 +8,7 @@
              :refer [ to-ast ]]))
 
 (defn verify-tree [file ast]
+
   (it (str "Verify org-mode file with AST tree\n" file)
       (should (= (to-ast file) ast))))
 
@@ -19,5 +20,7 @@
                :author "Yen-Chin, Lee"
                :email "coldnew.tw@gmail.com"
                :language "zh-tw"
+               ;; TODO:
+               :content "content"
                })
  )

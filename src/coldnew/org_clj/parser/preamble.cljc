@@ -8,14 +8,19 @@
 ;; for repl dev
 (comment
   (ns coldnew.org-clj.parser.preamble
-    (:require [instaparse.core :as insta]))
+    (:require [instaparse.core :as insta]
+              [coldnew.org-clj.private.utils :refer [slurp-resource]]))
   )
 
 (defn generate-bnf []
   (slurp-resource "preamble.bnf"))
 
 (defn to-ast [content]
-  ((insta/parser (generate-bnf)) content))
+  ((insta/parser
+    ;;(generate-bnf)
+    (clojure.core/slurp (clojure.java.io/resource "preamble.bnf"))
+    )
+   content))
 
 (defn ast-to-hashmap
   "Convert AST to hashmap"
@@ -57,4 +62,47 @@
 (defn parse-heading [content]
   (parse-with-key content :heading))
 
-;;(parse "#+TITLE: This is title\n#+AUTHOR:coldnew\nasdasd")
+;; TODO: remove
+(comment
+
+  (defn verify-header
+    [{:keys [meta content callback-fn]}]
+    (= (callback-fn (str meta content))
+       (callback-fn (str meta content "\n"))
+       (callback-fn (str meta content "\n\n"))
+       (callback-fn (str meta " " content))
+       (callback-fn (str meta "   " content))
+       (callback-fn (str meta "\t" content))
+       content))
+
+  (to-ast (slurp-resource "test1.org"))
+
+  #_(parse "#+TITLE: This is title\n#+AUTHOR:coldnew #+DATE: asd")
+
+  (into {}
+        (filter #(not= (first %) :content) {:a 1 :b 2 :content 4}))
+
+  (into {}
+        (filter #(not= (first %) :content)
+                (parse (slurp-resource "test1.org"))))
+  (=
+   (->> (parse (slurp-resource "test1.org"))
+        (filter #(not= (first %) :content))
+        (into {})
+        )
+   {:title "org-clj 簡易測試"
+    :author "Yen-Chin, Lee"
+    :email "coldnew.tw@gmail.com"
+    :language "zh-tw"
+    })
+
+  (=
+   (parse (slurp-resource "test1.org"))
+   {:title "org-clj 簡易測試"
+    :author "Yen-Chin, Lee"
+    :email "coldnew.tw@gmail.com"
+    :language "zh-tw"
+    :content "content"
+    })
+
+  )

@@ -1,6 +1,15 @@
 (* Tree *)
-<S>      = (title | author | creator | email | date | language | select-tags | exclude-tags | <content>)+
+(* <S>      = (title | author | creator | email | date | language | select-tags | exclude-tags | <content>)+ *)
+<S>      = ( preamble )+  content*
 (* Meta *)
+<preamble> = title
+             | author
+             | creator
+             | date
+             | email
+             | language
+             | select-tags
+             | exclude-tags
 <meta-header> = '#+'
 <meta-header-end> = ':' #"\s*"
 <meta-title>    = <meta-header> 'TITLE'      <meta-header-end>
@@ -11,7 +20,6 @@
 <meta-language> = <meta-header> 'LANGUAGE'   <meta-header-end>
 <meta-select-tags> = <meta-header> 'SELECT_TAGS'   <meta-header-end>
 <meta-exclude-tags> = <meta-header> 'EXCLUDE_TAGS'   <meta-header-end>
-<preamble>   = title | author | creator | email
 (* Preamble *)
 title        = <meta-title>    #'.+'? <newline*>?
 author       = <meta-author>   #'.+'? <newline*>?
@@ -22,7 +30,7 @@ language     = <meta-language> #'.+'? <newline*>?
 select-tags  = <meta-select-tags> #'.+'? <newline*>?
 exclude-tags  = <meta-exclude-tags> #'.+'? <newline*>?
 (* Other stuff *)
-content     =  !title !author #'.+'?  <newline*>?
+content     = !preamble #'.+'?  <newline*>?
 (* Utils *)
 <tab>      = #'\t'
 <space>    = #'\s'

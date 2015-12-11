@@ -1,0 +1,99 @@
+(* headline *)
+<S>  = headline
+       / DynamicLine
+       / SpecialLine
+       / DrawerLine
+       / TimeStampLine
+       / PlanningLine
+
+OrdinaryText = NotNewline
+
+(* headline *)
+
+headline     = stars
+               [<spaces> title-keyword]
+               [<spaces> priority]
+               [<spaces> title]
+               [<spaces> tags]
+stars        = #"\*+"
+title-keyword = "TODO" / "FEEDBACK" / "VERIFY" / "|" / "DONE" / "DELEGATED"
+priority     = <"[#"> Letter <"]">
+title        = (TimeStamp / title-word) (<spaces> (TimeStamp / title-word))*
+title-word    = !(tags / priority) NotSpaceOrNewline
+tags         = <":"> TagWord (<":"> TagWord)* <":">
+<TagWord>    = #"[a-zA-Z0-9_@#%]+"
+
+(* Special Blocks *)
+
+<SpecialLine>  = SpecialStart / SpecialEnd
+<SpecialStart> = (QuoteStart / CenterStart / SpStart) [<OWS> Parameters]
+<SpecialEnd>   = QuoteEnd / CenterEnd / SpEnd
+Parameters     = NotNewline
+QuoteStart     = <"#+BEGIN_QUOTE">
+CenterStart    = <"#+BEGIN_CENTER">
+SpStart        = <"#+BEGIN_"> #"[^\n\r\s\t]+"
+QuoteEnd       = <"#+END_QUOTE">
+CenterEnd      = <"#+END_CENTER">
+SpEnd          = <"#+END_"> #"[^\n\r\s\t]+"
+
+(* Dynamic Blocks *)
+
+<DynamicLine>     = DynamicStart / DynamicEnd
+DynamicStart      = <"#+BEGIN:"> <spaces> DynamicName [<spaces> DynamicParameters]
+DynamicName       = NotSpaceOrNewline
+DynamicParameters = NotNewline
+DynamicEnd        = <"#+END:">
+
+(* Drawers / Properties *)
+<DrawerLine>     = PropertiesStart / Property / DrawerStart / DrawerEnd
+PropertiesStart  = <":PROPERTIES:"> <spaces> DrawerName
+DrawerStart      = <":BEGIN:"> <spaces> DrawerName
+DrawerName       = NotSpaceOrNewline
+DrawerParameters = NotNewline
+Property         = <":"> PropKey <":"> <OWS> PropValue
+<PropKey>        = #"[^\s\r\n\t:]+"
+<PropValue>      = NotNewline
+DrawerEnd        = <":END:">
+
+
+(* Planning *)
+
+<PlanningLine>    = Clock / Planning
+Clock             = <"CLOCK:"> [<spaces> TimeStamp] [<spaces> Duration]
+Duration          = #"=>\s+\d+:\d{2}"
+Planning          = PlanningGroup (<OWS> PlanningGroup)*
+PlanningGroup     = PlanningKeyword <":"> <OWS> TimeStamp
+<PlanningKeyword> = "DEADLINE" / "SCHEDULED" / "CLOSED"
+
+(* Timestamps *)
+
+TimeStampLine     = <OWS> TimeStamp <OWS>
+<TimeStamp>       = InactiveTimeStamp
+                    / ActiveTimeStamp
+                    / InactiveRange
+                    / ActiveRange
+InactiveTimeStamp = <"["> TimeStampBits <"]">
+ActiveTimeStamp   = <"<"> TimeStampBits <">">
+InactiveRange     = <"["> TimeStampBits <"]--["> TimeStampBits <"]">
+ActiveRange       = <"<"> TimeStampBits <">--<"> TimeStampBits <">">
+<TimeStampBits>   = Date
+                    [<spaces> (Time / TimeRange)]
+                    [<spaces> Repeater]
+                    [<spaces> Delay]
+Date              = #"\d{4}-\d{2}-\d{2}" [<spaces> Day]
+Day               = "Mon" / "Tue" / "Wed" / "Thu" / "Fri" / "Sat" / "Sun"
+TimeRange         = Time <"-"> Time
+Time              = #"\d{1,2}:\d{2}"
+Repeater          = ("+" / "++" / ".+") Value Unit
+Delay             = ("-" / "--") Value Unit
+<Value>           = #"\d+"
+<Unit>            = "h" / "d" / "w" / "m" / "y"
+
+(* Utility *)
+
+<Letter>            = #"[a-zA-Z]"
+<spaces>            = #"\s+"
+<OWS>               = #"\s*"
+<NotSpace>          = #"[^\s]*";
+<NotNewline>        = #"[^\n\r]*"
+<NotSpaceOrNewline> = #"[^\s\n\r]+"

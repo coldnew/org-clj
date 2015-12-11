@@ -51,8 +51,12 @@
  )
 
 (defn verify-tree [file ast]
-  (it (str "Verify org-mode file with AST tree\n" file)
-      (should (= (parse file) ast))))
+  ;; filter out the :content keyword, we only focus on preamble
+  (let [result (->> (parse file)
+                    (filter #(not= (first %) :content))
+                    (into {}))]
+    (it (str "Verify org-mode file with AST tree\n" file)
+        (should (= result ast)))))
 
 (describe
  "Document preamble to AST"
