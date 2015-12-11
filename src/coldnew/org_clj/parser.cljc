@@ -1,27 +1,22 @@
 (ns coldnew.org-clj.parser
-  #?(:cljs
-     (:require-macros [coldnew.org-clj.parser :refer [generate-bnf]]))
+  (#?(:clj :require :cljs :require-macros)
+   [coldnew.org-clj.private.utils :refer [slurp-resource]])
   (:require [instaparse.core :as insta]))
 
+;; for repl dev
+(comment
+  (ns coldnew.org-clj.parser
+    (:require [instaparse.core :as insta]))
+  )
 ;; https://github.com/danneu/klobbdown/blob/master/src/klobbdown/parse.clj
 ;; https://github.com/eigenhombre/yaclomp/blob/master/resources/grammar.bnf
 ;; https://github.com/gmorpheme/organum/blob/master/src/organum/core.clj
 ;; https://github.com/minikomi/orjmode/blob/master/resources/org.bnf
 ;; http://orgmode.org/manual/Document-preamble.html
-(comment
-  (def bnf
-    (slurp (clojure.java.io/resource "preamble.bnf"))
-    )
-  )
-(comment
-  (defn generate-bnf
-    []
-    (slurp (clojure.java.io/resource "preamble.bnf")))
-  )
 
-#?(:clj
-   (defmacro generate-bnf []
-     (clojure.core/slurp (clojure.java.io/resource "preamble.bnf"))))
+;; TODO: we not only has this bnf file
+(defn generate-bnf []
+  (slurp-resource "preamble.bnf"))
 
 (defn org-to-ast
   "Convert org-mode to AST"
@@ -82,8 +77,8 @@
   (parse-with-key content :heading))
 
 (comment
-  (parse-title "#+TITLE: This is title\n#+AUTHOR:coldnew")
-  (parse-title "#+TITLE:This is title")
+  (parse-org "#+TITLE: This is title\n#+AUTHOR:coldnew")
   (parse-title "#+TITLE:  This is title")
   (parse-author "#+AUTHOR: Yen-Chin, Lee")
+  (parse-author "")
   )

@@ -1,10 +1,12 @@
 (ns coldnew.org-clj.parser-spec
   (#?(:clj  :require
       :cljs :require-macros)
-   [speclj.core :refer [describe it should should-not]])
+   [speclj.core :refer [describe it should should-not]]
+   [coldnew.org-clj.private.utils :refer [slurp-resource]])
   (:require [speclj.run.standard :refer [run-specs]]
             [coldnew.org-clj.parser
-             :refer [parse-title parse-author parse-creator parse-date parse-email parse-language
+             :refer [parse-org
+                     parse-title parse-author parse-creator parse-date parse-email parse-language
                      parse-select-tags parse-exclude-tags] ]))
 
 (defn verify-header
@@ -45,6 +47,22 @@
  (verify-header {:meta        "#+EXCLUDE_TAGS:"
                  :content     "todo"
                  :callback-fn parse-exclude-tags})
+ )
+
+(defn verify-tree [file ast]
+  (it (str "Verify org-mode file with AST tree\n" file)
+      (should (= (parse-org file) ast))))
+
+
+(describe
+ "Document preamble to AST"
+
+ (verify-tree (slurp-resource "test1.org")
+              {:title "org-clj 簡易測試"
+               :author "Yen-Chin, Lee"
+               :email "coldnew.tw@gmail.com"
+               :language "zh-tw"
+               })
  )
 
 ;; Excute the spec
