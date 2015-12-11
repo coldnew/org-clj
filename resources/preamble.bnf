@@ -1,5 +1,5 @@
 (* Tree *)
-<S>      = (title | author | creator | email | date | language | select-tags | exclude-tags | content)+
+<S>      = (title | author | creator | email | date | language | select-tags | exclude-tags | <content>)+
 (* Meta *)
 <meta-header> = '#+'
 <meta-header-end> = ':' #"\s*"
