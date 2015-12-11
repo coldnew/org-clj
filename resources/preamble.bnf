@@ -1,6 +1,6 @@
 (* Tree *)
 (* <S>      = (title | author | creator | email | date | language | select-tags | exclude-tags | <content>)+ *)
-<S>      = ( preamble )+  content*
+<S>      = ( preamble )*  content*
 (* Meta *)
 <preamble> = title
              | author

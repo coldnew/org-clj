@@ -10,6 +10,7 @@
   (ns coldnew.org-clj.parser
     (:require [instaparse.core :as insta]
               [coldnew.org-clj.parser.preamble :as preamble]
+              [coldnew.org-clj.private.utils :refer [slurp-resource]]
               ))
   )
 ;; https://github.com/danneu/klobbdown/blob/master/src/klobbdown/parse.clj

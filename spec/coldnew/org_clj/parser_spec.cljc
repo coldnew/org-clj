@@ -15,6 +15,9 @@
 (describe
  "Document to AST"
 
+ ;; Empty file should return empty tree
+ (verify-tree (slurp-resource "empty.org") {})
+
  (verify-tree (slurp-resource "test1.org")
               {:title "org-clj 簡易測試"
                :author "Yen-Chin, Lee"
