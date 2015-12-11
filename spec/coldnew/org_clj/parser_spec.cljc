@@ -1,5 +1,5 @@
 (ns coldnew.org-clj.parser-spec
-  (#?(:clj :require
+  (#?(:clj  :require
       :cljs :require-macros)
    [speclj.core :refer [describe it should should-not]])
   (:require [speclj.run.standard :refer [run-specs]]

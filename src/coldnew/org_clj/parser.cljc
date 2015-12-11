@@ -1,19 +1,27 @@
 (ns coldnew.org-clj.parser
+  #?(:cljs
+     (:require-macros [coldnew.org-clj.parser :refer [generate-bnf]]))
   (:require [instaparse.core :as insta]))
-
 
 ;; https://github.com/danneu/klobbdown/blob/master/src/klobbdown/parse.clj
 ;; https://github.com/eigenhombre/yaclomp/blob/master/resources/grammar.bnf
 ;; https://github.com/gmorpheme/organum/blob/master/src/organum/core.clj
 ;; https://github.com/minikomi/orjmode/blob/master/resources/org.bnf
 ;; http://orgmode.org/manual/Document-preamble.html
-(def bnf
-  (slurp (clojure.java.io/resource "preamble.bnf"))
+(comment
+  (def bnf
+    (slurp (clojure.java.io/resource "preamble.bnf"))
+    )
+  )
+(comment
+  (defn generate-bnf
+    []
+    (slurp (clojure.java.io/resource "preamble.bnf")))
   )
 
-(defn generate-bnf
-  []
-  (slurp (clojure.java.io/resource "preamble.bnf")))
+#?(:clj
+   (defmacro generate-bnf []
+     (clojure.core/slurp (clojure.java.io/resource "preamble.bnf"))))
 
 (defn org-to-ast
   "Convert org-mode to AST"

@@ -16,5 +16,6 @@ before_install:
 lein: ~/bin/lein
 script:
  - lein spec
+ - lein cljsbuild test
  - lein codox
  - ./deploy.sh
