@@ -61,7 +61,7 @@
 (describe
  "Document preamble to AST"
 
- (verify-tree (slurp-resource "test1.org")
+ (verify-tree (slurp-resource "preamble-test1.org")
               {:title "org-clj 簡易測試"
                :author "Yen-Chin, Lee"
                :email "coldnew.tw@gmail.com"
